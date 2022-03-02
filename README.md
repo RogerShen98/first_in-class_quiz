@@ -1,3 +1,5 @@
+PROGRAM 1
+************************************************************************************
 Restaurant Bill 
 Write a program that computes the tax and tip on a restaurant bill for a patron. The program should accept the tax and tip both as percentages from the command line when running the program. Meaning as argument passed into the main(). Display the meal cost, tax amount, tip amount, and total bill on the screen. The meal cost should be randomly chosen between the following four:
 Salad: $9.95
@@ -5,7 +7,11 @@ Soup: $4.55
 Sandwich: $13.25
 Pizza: $22.35
 
+************************************************************************************
 
+
+PROGRAM 2
+************************************************************************************
 
 Number guessing game 
 Create an interactive program that allows a user to guess a number between 1-10. You should create a menu that will have options (this should be displayed on the screen):
@@ -28,3 +34,4 @@ Finally create a new branch – call it save_user_max_number
 	
 Save the users request for the max number in which the program can remember the max number from the previous time
 	NOTE: This is called persists, meaning we can recall data after process is stopped
+************************************************************************************
