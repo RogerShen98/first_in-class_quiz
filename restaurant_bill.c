@@ -3,6 +3,19 @@ CS2600 First In Class Quiz
 Liangjie Shen
 2/3/2022
 
+This program that computes the tax and tip on a restaurant bill for a patron. 
+The program should accept the tax and tip both as percentages from the 
+command line when running the program. Meaning as argument passed into the 
+main(). Display the meal cost, tax amount, tip amount, and total bill on 
+the screen. The meal cost should be randomly chosen between the following 
+four:
+Salad: $9.95
+Soup: $4.55
+Sandwich: $13.25
+Pizza: $22.35
+
+Note: The input arguments are already in percentage form.
+
 */
 #include <stdio.h> // input/output library
 #include <stdlib.h> // atof fucntion and random number generator
@@ -49,7 +62,16 @@ int main(int argc, char* argv[])
         printf("\nRandomly Chosen Meal\n%s: $", meal[chosen_meal_index]);
         printf("%.2f\n", price[chosen_meal_index]);
         
-        
+        double meal_price = price[chosen_meal_index];
+        double tax_amount = meal_price*(atof(argv[1])/100);
+        double tip_amount = meal_price*(atof(argv[2])/100);
+        // atof changes string to float number
+
+        printf("Tax Amount: $%.2f",tax_amount);
+        printf("(%s%%)\n",argv[1]);
+        printf("Tip Amount: $%.2f",tip_amount);
+        printf("(%s%%)\n",argv[2]);
+        printf("Total Bill: $%.2f\n",meal_price+tax_amount+tip_amount);
 
     }
     
