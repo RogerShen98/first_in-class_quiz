@@ -39,22 +39,36 @@ NOTE: This is called persists, meaning we can recall data after process is stopp
 #include <stdlib.h> // atof fucntion and random number generator
 #include <time.h> // time variable 
 #include <string.h> // string library
-#include<ctype.h> // type check
+#include <ctype.h> // type check
+#include <stdbool.h> // Header-file for boolean data-type.
 
 // function declaration
-void guessNumber();
+void guessNumber(int max);
+int changeMax();
+
+// global variable
+int guessCount = 0;
+int finalResult = 0;
 
 int main()
 {
-    
+    int option = 0;
+    int max = 10;
+    int counter = 0;
+    int result[100];
+    int guess[100];
+
+    // end the game if the user pressed 3
+    while(option!=3){
+        
         // welcome message and user input
-        printf("Welcome to the Number Guessing Game!\n"
+        printf("\n\nWelcome to the Number Guessing Game!\n"
         "\nPress 1 to play a game"
         "\nPress 2 to change the max number"
         "\nPress 3 to quit\n\n");
 
         // get user input for the menu
-        int option;
+        
         scanf("%d",&option);
 
         while(option!= 1&&option!=2&&option!=3){
@@ -63,22 +77,37 @@ int main()
         }
 
         if(option==1){
-            guessNumber();
+            guessNumber(max);
+            result[counter] = finalResult; // store the win or lose condition each game
+            guess[counter] = guessCount; // store the guess number each game
+            counter++; // increment
+            guessCount = 0;
         }
 
         else if(option==2){
-            changeMax();
+            max = changeMax();
         }
 
         else{
-            endGame();
-        }
+            printf("Thanks for playing!\n");
+            for(int i = 0; i < counter; i++){
+                if(result[i]==1)
+                    printf("Game %d: win\n",i+1);
+                
+                else    
+                    printf("Game %d: lose\n",i+1);
 
-        return 0;
+                printf("Number of guesses: %d\n\n", guess[i]);
+            }
+
+        }
+    }
+
+    return 0;
     
 }
 
-void guessNumber(){
+void guessNumber(int max){
     // random number between 1-10
     int randomNum = 0;
     char inputString[100];
@@ -87,38 +116,76 @@ void guessNumber(){
     // random number generator
     srand((unsigned) time(&t)); 
 
-    // pick a number from 0 - 3
-    randomNum =  rand() % 10 + 1;
+    if(max == 10)
+        // random a number from 1-10
+        randomNum = rand() % 10 + 1;
+
+    else
+        // random a number from 0-max
+        randomNum =  rand() % max;
 
     char randomStr[100];
     sprintf(randomStr, "%d", randomNum);
 
-    printf("Pick a number between 1-10[enter q to go back to the menu]: ");
+    printf("Pick a number between 1-%d[enter q to go back to the menu]: ", max);
 
     while(strcmp(randomStr,inputString)!=0){
 
         scanf("%s",inputString);
 
         if(strcmp(inputString,"q")==0){
-            break;
+            finalResult = 0;
+            break; // lose the game
         }
+        
 
-        else if(strcmp(randomStr,inputString)<0){
+        else if(randomNum < atoi(inputString)){
             printf("Number too high!\n");
+            guessCount++;
         }
 
-        else if(strcmp(randomStr,inputString)>0){
+        else if(randomNum > atoi(inputString)){
+        
             printf("Number too low!\n");
+            guessCount++;
         }
 
         else if(strcmp(randomStr,inputString)==0){
             printf("Congrats! You got the number right!\n");
-            break;
+            finalResult = 1;
+            break; // wins the game
         }
 
-      
+        else
+            printf("Wrong input!\n");
+
+
     }
 
 
+}
 
+int changeMax(){
+    int max = -1;
+
+    while(max<0||max>1000){
+        printf("What maximum number do you want it to be?"
+        "[Positive Only and less than 1000]: ");
+        scanf("%d",&max);
+
+        if(max<0||max>1000)
+            printf("Wrong number input");
+        
+    }
+
+    printf("\nMax Number Changed...\n");
+
+    // store max number in save_user_max_number.txt file i.e. persist
+    FILE *fp;
+
+    fp = fopen("save_user_max_number.txt", "w+");
+    fprintf(fp,"Max Number: %i",max);
+    fclose(fp);
+
+    return max;
 }
