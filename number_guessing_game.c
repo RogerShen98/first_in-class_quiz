@@ -38,13 +38,15 @@ NOTE: This is called persists, meaning we can recall data after process is stopp
 #include <stdio.h> // input/output library
 #include <stdlib.h> // atof fucntion and random number generator
 #include <time.h> // time variable 
+#include <string.h> // string library
+#include<ctype.h> // type check
 
 // function declaration
 void guessNumber();
 
 int main()
 {
-    while(true){
+    
         // welcome message and user input
         printf("Welcome to the Number Guessing Game!\n"
         "\nPress 1 to play a game"
@@ -64,17 +66,22 @@ int main()
             guessNumber();
         }
 
+        else if(option==2){
+            changeMax();
+        }
 
-        
+        else{
+            endGame();
+        }
 
-        
         return 0;
-    }
+    
 }
 
 void guessNumber(){
     // random number between 1-10
     int randomNum = 0;
+    char inputString[100];
     time_t t; // initialize time variable
 
     // random number generator
@@ -83,6 +90,35 @@ void guessNumber(){
     // pick a number from 0 - 3
     randomNum =  rand() % 10 + 1;
 
-    
+    char randomStr[100];
+    sprintf(randomStr, "%d", randomNum);
+
+    printf("Pick a number between 1-10[enter q to go back to the menu]: ");
+
+    while(strcmp(randomStr,inputString)!=0){
+
+        scanf("%s",inputString);
+
+        if(strcmp(inputString,"q")==0){
+            break;
+        }
+
+        else if(strcmp(randomStr,inputString)<0){
+            printf("Number too high!\n");
+        }
+
+        else if(strcmp(randomStr,inputString)>0){
+            printf("Number too low!\n");
+        }
+
+        else if(strcmp(randomStr,inputString)==0){
+            printf("Congrats! You got the number right!\n");
+            break;
+        }
+
+      
+    }
+
+
 
 }
